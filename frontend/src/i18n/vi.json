@@ -1,0 +1,27 @@
+{
+  "title": "Trợ Lý Học Thuật AI",
+  "nav": {
+    "home": "Trang chủ",
+    "codeAnalyzer": "Phân tích mã"
+  },
+  "backendStatus": {
+    "label": "Trạng thái Backend:",
+    "connecting": "Đang kết nối tới backend...",
+    "ok": "Đã kết nối! {{message}}",
+    "error": "Không thể kết nối tới backend."
+  },
+  "codeAnalyzer": {
+    "title": "Công cụ phân tích mã AI",
+    "description": "Dán đoạn mã của bạn vào bên dưới và để AI giải thích cho bạn.",
+    "placeholder": "Nhập mã của bạn vào đây...",
+    "button": {
+      "submit": "Phân tích mã",
+      "loading": "Đang phân tích..."
+    },
+    "resultTitle": "Giải thích của AI:",
+    "error": {
+      "title": "Đã xảy ra lỗi",
+      "generic": "Không thể kết nối đến dịch vụ phân tích. Vui lòng thử lại sau."
+    }
+  }
+}

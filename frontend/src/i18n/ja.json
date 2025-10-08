@@ -1,0 +1,27 @@
+{
+  "title": "学術AIアシスタント",
+  "nav": {
+    "home": "ホーム",
+    "codeAnalyzer": "コード解析"
+  },
+  "backendStatus": {
+    "label": "バックエンドステータス:",
+    "connecting": "バックエンドに接続中...",
+    "ok": "接続しました！{{message}}",
+    "error": "バックエンドに接続できませんでした。"
+  },
+  "codeAnalyzer": {
+    "title": "AIコード解析ツール",
+    "description": "以下にコードスニペットを貼り付けて、AIに説明してもらいましょう。",
+    "placeholder": "ここにコードを入力してください...",
+    "button": {
+      "submit": "コードを解析",
+      "loading": "解析中..."
+    },
+    "resultTitle": "AIの説明:",
+    "error": {
+      "title": "エラーが発生しました",
+      "generic": "解析サービスに接続できませんでした。後でもう一度お試しください。"
+    }
+  }
+}

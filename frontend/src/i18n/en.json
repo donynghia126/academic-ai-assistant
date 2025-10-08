@@ -1,0 +1,27 @@
+{
+  "title": "Academic AI Assistant",
+  "nav": {
+    "home": "Home",
+    "codeAnalyzer": "Code Analyzer"
+  },
+  "backendStatus": {
+    "label": "Backend Status:",
+    "connecting": "Connecting to backend...",
+    "ok": "Connected! {{message}}",
+    "error": "Could not connect to backend."
+  },
+  "codeAnalyzer": {
+    "title": "AI Code Analyzer",
+    "description": "Paste your code snippet below and let our AI explain it to you.",
+    "placeholder": "Enter your code here...",
+    "button": {
+      "submit": "Analyze Code",
+      "loading": "Analyzing..."
+    },
+    "resultTitle": "AI's Explanation:",
+    "error": {
+      "title": "An Error Occurred",
+      "generic": "Could not connect to the analysis service. Please try again later."
+    }
+  }
+}
