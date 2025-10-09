@@ -3,7 +3,8 @@
   "nav": {
     "home": "Trang chủ",
     "codeAnalyzer": "Phân tích mã",
-    "chat": "Trò chuyện"
+    "chat": "Trò chuyện",
+    "subjectExplorer": "Khám phá"
   },
   "backendStatus": {
     "label": "Trạng thái Backend:",
@@ -30,5 +31,12 @@
     "welcomeMessage": "Hãy hỏi tôi bất cứ điều gì!",
     "inputPlaceholder": "Nhập tin nhắn của bạn...",
     "sendButton": "Gửi"
+  },
+  "subjectExplorerPage": {
+    "title": "Thư Viện Khám Phá",
+    "loading": "Đang tải các môn học...",
+    "error": "Không thể tải danh sách môn học. Vui lòng thử lại sau.",
+    "noSubjects": "Hiện tại chưa có môn học nào.",
+    "topicsTitle": "Chủ đề chính:"
   }
 }

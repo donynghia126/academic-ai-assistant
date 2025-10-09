@@ -3,7 +3,8 @@
   "nav": {
     "home": "ホーム",
     "codeAnalyzer": "コード解析",
-    "chat": "チャットアシスタント"
+    "chat": "チャットアシスタント",
+    "subjectExplorer": "探検"
   },
   "backendStatus": {
     "label": "バックエンドステータス:",
@@ -30,5 +31,12 @@
     "welcomeMessage": "何でも聞いてください！",
     "inputPlaceholder": "ここにメッセージを入力...",
     "sendButton": "送信"
+  },
+  "subjectExplorerPage": {
+    "title": "知識を探る",
+    "loading": "科目を読み込み中...",
+    "error": "科目の読み込みに失敗しました。後でもう一度お試しください。",
+    "noSubjects": "現在、利用可能な科はありません。",
+    "topicsTitle": "主なトピック:"
   }
 }

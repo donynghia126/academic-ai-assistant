@@ -3,7 +3,8 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CodeAnalyzerPage from "./pages/CodeAnalyzerPage";
-import ChatPage from "./pages/ChatPage"; // << THÊM VÀO
+import ChatPage from "./pages/ChatPage";
+import SubjectExplorerPage from "./pages/SubjectExplorerPage";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import "./styles/App.css";
@@ -23,11 +24,12 @@ function App() {
               <Link to="/code-analyzer" className="nav-link">
                 {t("nav.codeAnalyzer")}
               </Link>
-              {/* V << THÊM VÀO V */}
               <Link to="/chat" className="nav-link">
                 {t("nav.chat")}
               </Link>
-              {/* ^ << THÊM VÀO ^ */}
+              <Link to="/subjects" className="nav-link">
+                {t("nav.subjectExplorer")}
+              </Link>
             </div>
             <div className="language-switcher-container">
               <LanguageSwitcher />
@@ -39,9 +41,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/code-analyzer" element={<CodeAnalyzerPage />} />
-            {/* V << THÊM VÀO V */}
             <Route path="/chat" element={<ChatPage />} />
-            {/* ^ << THÊM VÀO ^ */}
+            <Route path="/subjects" element={<SubjectExplorerPage />} />
           </Routes>
         </main>
       </div>

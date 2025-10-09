@@ -3,7 +3,8 @@
   "nav": {
     "home": "Home",
     "codeAnalyzer": "Code Analyzer",
-    "chat": "Chat Assistant"
+    "chat": "Chat Assistant",
+    "subjectExplorer": "Explorer"
   },
   "backendStatus": {
     "label": "Backend Status:",
@@ -30,5 +31,12 @@
     "welcomeMessage": "Feel free to ask me anything!",
     "inputPlaceholder": "Type your message here...",
     "sendButton": "Send"
+  },
+  "subjectExplorerPage": {
+    "title": "Knowledge Explorer",
+    "loading": "Loading subjects...",
+    "error": "Failed to load subjects. Please try again later.",
+    "noSubjects": "No subjects available at the moment.",
+    "topicsTitle": "Main Topics:"
   }
 }

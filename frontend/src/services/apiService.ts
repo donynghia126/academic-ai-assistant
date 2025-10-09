@@ -12,6 +12,16 @@ export interface ChatPayload {
   history: ChatMessage[];
   message: string;
 }
+// [MỚI] Cho tính năng Thư viện Khám phá
+export interface Topic {
+  name: string;
+}
+export interface Subject {
+  id: number;
+  name: string;
+  description: string | null;
+  topics: Topic[];
+}
 
 // Tạo một instance của axios với cấu hình cơ bản
 const apiClient = axios.create({
@@ -38,20 +48,20 @@ export const postChatMessage = async (
   try {
     // Chuyển đổi format trước khi gửi: từ {text: string} sang string[]
     const backendPayload = {
-      history: payload.history.map(msg => ({
+      history: payload.history.map((msg) => ({
         role: msg.role,
-        parts: msg.parts.map(part => part.text)
+        parts: msg.parts.map((part) => part.text),
       })),
-      message: payload.message
+      message: payload.message,
     };
 
     const response = await apiClient.post("/chat/conversation", backendPayload);
-    
+
     // API backend trả về: {role: "model", parts: ["text response"]}
     // Chuyển đổi sang format frontend: {role: "model", parts: [{text: "text response"}]}
     const aiMessage: ChatMessage = {
       role: response.data.role,
-      parts: response.data.parts.map((text: string) => ({ text }))
+      parts: response.data.parts.map((text: string) => ({ text })),
     };
     return aiMessage;
   } catch (error) {
@@ -70,6 +80,16 @@ export const explainCode = async (code: string): Promise<string> => {
     return response.data.explanation;
   } catch (error) {
     console.error("Lỗi khi gửi code để phân tích:", error);
+    throw error;
+  }
+};
+// [MỚI] Hàm lấy danh sách tất cả môn học
+export const getSubjects = async (): Promise<Subject[]> => {
+  try {
+    const response = await apiClient.get<Subject[]>("/subjects/");
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách môn học:", error);
     throw error;
   }
 };

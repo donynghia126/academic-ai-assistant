@@ -3,8 +3,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, validator
 from typing import List, Literal
-# [MỚI] Import service của chúng ta
-from app.services import gemini_service 
+from app.services import ai_factory 
+from app.services.ai_factory import AIProvider 
 
 # Định nghĩa cấu trúc cho một tin nhắn trong cuộc hội thoại
 class ChatMessage(BaseModel):
@@ -35,28 +35,19 @@ async def post_conversation(chat_request: ChatRequest):
     }
     """
     try:
-        # Chuyển đổi history từ Pydantic model thành dictionary thuần túy
-        # mà thư viện Gemini có thể hiểu được.
         history_dicts = [msg.dict() for msg in chat_request.history]
 
-        # Debug log
-        print(f"📝 History: {history_dicts}")
-        print(f"📝 New message: {chat_request.message}")
-
-        # [MỚI] Gọi hàm service mới để lấy phản hồi từ AI
-        ai_response = gemini_service.generate_chat_response(
+        # [MỚI] Gọi qua "Tổng Đài", chỉ định rõ muốn "gặp" GEMINI
+        ai_response = ai_factory.generate_chat_response(
+            provider=AIProvider.GEMINI, # << THAY ĐỔI
             history=history_dicts,
             message=chat_request.message
         )
 
-        # Kiểm tra xem service có trả về lỗi không
         if "error" in ai_response:
             raise HTTPException(status_code=500, detail=ai_response["error"])
 
         return ai_response
-
-    except HTTPException:
-        raise
     except Exception as e:
         print(f"❌ Error in conversation endpoint: {e}")
         raise HTTPException(status_code=500, detail=str(e))
