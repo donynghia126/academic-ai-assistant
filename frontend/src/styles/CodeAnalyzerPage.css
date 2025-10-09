@@ -22,7 +22,7 @@
 
 .code-textarea {
   width: 100%;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 1rem;
   padding: 0.75rem;
   border: 1px solid #ddd;
@@ -121,12 +121,16 @@
 
 /* Loading animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .submit-button:disabled::after {
-  content: '';
+  content: "";
   display: inline-block;
   margin-left: 0.5rem;
   width: 14px;

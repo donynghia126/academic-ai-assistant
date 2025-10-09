@@ -1,15 +1,10 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 
 router = APIRouter()
 
-class HealthCheck(BaseModel):
-    status: str
-    message: str
-
-@router.get("/health", response_model=HealthCheck)
-def health_check():
+@router.get("/status")
+def get_status():
     """
-    Endpoint kiểm tra "sức khỏe" của API.
+    Endpoint để kiểm tra trạng thái của API.
     """
-    return HealthCheck(status="OK", message="API is running smoothly")
+    return {"status": "ok", "message": "API is running smoothly!"}

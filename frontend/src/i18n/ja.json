@@ -2,7 +2,8 @@
   "title": "学術AIアシスタント",
   "nav": {
     "home": "ホーム",
-    "codeAnalyzer": "コード解析"
+    "codeAnalyzer": "コード解析",
+    "chat": "チャットアシスタント"
   },
   "backendStatus": {
     "label": "バックエンドステータス:",
@@ -23,5 +24,11 @@
       "title": "エラーが発生しました",
       "generic": "解析サービスに接続できませんでした。後でもう一度お試しください。"
     }
+  },
+  "chatPage": {
+    "title": "AIアシスタントとチャット",
+    "welcomeMessage": "何でも聞いてください！",
+    "inputPlaceholder": "ここにメッセージを入力...",
+    "sendButton": "送信"
   }
 }

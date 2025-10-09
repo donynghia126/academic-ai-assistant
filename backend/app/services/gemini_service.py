@@ -1,6 +1,7 @@
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv 
+from typing import List, Dict
 
 # Load biến môi trường NGAY tại đây
 load_dotenv()
@@ -70,4 +71,32 @@ def explain_code_from_gemini(code_snippet: str) -> dict:
     except Exception as e:
         # Xử lý nếu có lỗi xảy ra trong quá trình gọi API
         print(f" Lỗi khi gọi Gemini API: {e}")
+        return {"error": f"Đã xảy ra lỗi khi giao tiếp với AI: {e}"}
+    
+def generate_chat_response(history: List[Dict[str, any]], message: str) -> dict:
+    """
+    Tạo phản hồi từ AI dựa trên lịch sử trò chuyện và tin nhắn mới.
+
+    Args:
+        history: Lịch sử cuộc trò chuyện trước đó.
+        message: Tin nhắn mới từ người dùng.
+
+    Returns:
+        Một dictionary chứa phản hồi của AI hoặc thông báo lỗi.
+    """
+    if not model:
+        return {"error": "Mô hình AI chưa được khởi tạo thành công."}
+
+    try:
+        # Khởi tạo một phiên trò chuyện (chat session) với lịch sử đã có
+        chat_session = model.start_chat(history=history)
+        
+        # Gửi tin nhắn mới của người dùng vào phiên trò chuyện
+        response = chat_session.send_message(message)
+        
+        # Trả về kết quả thành công
+        return {"role": "model", "parts": [response.text]}
+
+    except Exception as e:
+        print(f" Lỗi khi gọi Gemini API trong chat session: {e}")
         return {"error": f"Đã xảy ra lỗi khi giao tiếp với AI: {e}"}

@@ -2,7 +2,8 @@
   "title": "Academic AI Assistant",
   "nav": {
     "home": "Home",
-    "codeAnalyzer": "Code Analyzer"
+    "codeAnalyzer": "Code Analyzer",
+    "chat": "Chat Assistant"
   },
   "backendStatus": {
     "label": "Backend Status:",
@@ -23,5 +24,11 @@
       "title": "An Error Occurred",
       "generic": "Could not connect to the analysis service. Please try again later."
     }
+  },
+  "chatPage": {
+    "title": "Chat with AI Assistant",
+    "welcomeMessage": "Feel free to ask me anything!",
+    "inputPlaceholder": "Type your message here...",
+    "sendButton": "Send"
   }
 }

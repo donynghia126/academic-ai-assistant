@@ -2,7 +2,8 @@
   "title": "Trợ Lý Học Thuật AI",
   "nav": {
     "home": "Trang chủ",
-    "codeAnalyzer": "Phân tích mã"
+    "codeAnalyzer": "Phân tích mã",
+    "chat": "Trò chuyện"
   },
   "backendStatus": {
     "label": "Trạng thái Backend:",
@@ -23,5 +24,11 @@
       "title": "Đã xảy ra lỗi",
       "generic": "Không thể kết nối đến dịch vụ phân tích. Vui lòng thử lại sau."
     }
+  },
+  "chatPage": {
+    "title": "Trò chuyện với Trợ lý AI",
+    "welcomeMessage": "Hãy hỏi tôi bất cứ điều gì!",
+    "inputPlaceholder": "Nhập tin nhắn của bạn...",
+    "sendButton": "Gửi"
   }
 }

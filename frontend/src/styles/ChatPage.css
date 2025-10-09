@@ -1,0 +1,125 @@
+/* frontend/src/styles/ChatPage.css */
+
+.chat-page-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.chat-title {
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+  background-color: #4a4a4a;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.chat-window {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Khoảng cách giữa các tin nhắn */
+}
+
+/* --- [MỚI] Bổ sung các style cho tin nhắn --- */
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.message-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* Tin nhắn của người dùng (bên phải, màu xanh) */
+.message-container.user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message-bubble.user {
+  background-color: #007bff;
+  color: white;
+  border-bottom-right-radius: 4px; /* Tạo hiệu ứng "đuôi" */
+}
+
+/* Tin nhắn của AI (bên trái, màu xám) */
+.message-container.model {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.message-bubble.model {
+  background-color: #e9e9eb;
+  color: #333;
+  border-bottom-left-radius: 4px;
+}
+
+.loading-indicator {
+  align-self: flex-start;
+  color: #888;
+  font-style: italic;
+}
+
+/* ------------------------------------------- */
+
+.chat-input-area {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.send-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+.send-button:disabled {
+  background-color: #a0c3e6;
+  cursor: not-allowed;
+}

@@ -39,7 +39,9 @@ function CodeAnalyzerPage() {
   return (
     <div className="code-analyzer-container">
       <h1 className="code-analyzer-title">{t("codeAnalyzer.title")}</h1>
-      <p className="code-analyzer-description">{t("codeAnalyzer.description")}</p>
+      <p className="code-analyzer-description">
+        {t("codeAnalyzer.description")}
+      </p>
 
       <form onSubmit={handleSubmit} className="code-analyzer-form">
         <textarea
@@ -50,11 +52,7 @@ function CodeAnalyzerPage() {
           className="code-textarea"
           disabled={isLoading}
         />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="submit-button"
-        >
+        <button type="submit" disabled={isLoading} className="submit-button">
           {isLoading
             ? t("codeAnalyzer.button.loading")
             : t("codeAnalyzer.button.submit")}
