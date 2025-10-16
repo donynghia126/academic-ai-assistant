@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Academic Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        padding: 1.5rem;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+      }
+      .card-content {
+        flex-grow: 1;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+      .btn {
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: background-color 0.3s;
+      }
+      .btn-primary {
+        background-color: #4a90e2;
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: #357abd;
+      }
+      .lang-btn {
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .lang-btn.active {
+        background-color: #4a90e2;
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <!-- Header Chung (Ẩn ban đầu) -->
+    <header id="common-header" class="bg-white shadow-md p-4 hidden">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <svg
+            class="w-8 h-8 text-[#4A90E2]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6.253v11.494m-9-5.747h18"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 18a6 6 0 100-12 6 6 0 000 12z"
+            ></path>
+          </svg>
+          <h1 class="text-xl font-bold" data-translate="app_title"></h1>
+        </div>
+        <nav class="hidden md:flex items-center space-x-4">
+          <a
+            href="#"
+            onclick="showPage('dashboard')"
+            class="hover:text-[#4A90E2] font-medium"
+            data-translate="nav_dashboard"
+          ></a>
+          <a
+            href="#"
+            onclick="showPage('code-analyzer')"
+            class="hover:text-[#4A90E2] font-medium"
+            data-translate="nav_code_analyzer"
+          ></a>
+          <a
+            href="#"
+            onclick="showPage('chat')"
+            class="hover:text-[#4A90E2] font-medium"
+            data-translate="nav_chat"
+          ></a>
+          <a
+            href="#"
+            onclick="showPage('subjects')"
+            class="hover:text-[#4A90E2] font-medium"
+            data-translate="nav_discover"
+          ></a>
+          <a
+            href="#"
+            onclick="showPage('agent')"
+            class="hover:text-[#4A90E2] font-medium"
+            data-translate="nav_agent"
+          ></a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <span id="user-greeting" class="font-medium"></span>
+          <button
+            onclick="logout()"
+            class="text-sm font-medium text-gray-600 hover:text-red-500"
+            data-translate="logout_button"
+          ></button>
+          <div class="flex items-center space-x-1 border p-1 rounded-lg">
+            <button onclick="setLanguage('en')" class="lang-btn" id="lang-en">
+              EN
+            </button>
+            <button onclick="setLanguage('ja')" class="lang-btn" id="lang-ja">
+              JA
+            </button>
+            <button onclick="setLanguage('vi')" class="lang-btn" id="lang-vi">
+              VI
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="app-container" class="container mx-auto p-4 md:p-8">
+      <!-- Trang Đăng Nhập -->
+      <div id="login" class="page active">
+        <div
+          class="flex flex-col items-center justify-center min-h-screen -mt-16"
+        >
+          <div
+            class="absolute top-4 right-4 flex items-center space-x-1 border p-1 rounded-lg bg-white"
+          >
+            <button
+              onclick="setLanguage('en')"
+              class="lang-btn"
+              id="lang-login-en"
+            >
+              EN
+            </button>
+            <button
+              onclick="setLanguage('ja')"
+              class="lang-btn"
+              id="lang-login-ja"
+            >
+              JA
+            </button>
+            <button
+              onclick="setLanguage('vi')"
+              class="lang-btn"
+              id="lang-login-vi"
+            >
+              VI
+            </button>
+          </div>
+          <div
+            class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg"
+          >
+            <div class="flex flex-col items-center space-y-2">
+              <svg
+                class="w-16 h-16 text-[#4A90E2]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v11.494m-9-5.747h18"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 18a6 6 0 100-12 6 6 0 000 12z"
+                ></path>
+              </svg>
+              <h2
+                class="text-2xl font-bold text-center"
+                data-translate="login_title"
+              ></h2>
+            </div>
+            <form class="space-y-6" onsubmit="event.preventDefault(); login();">
+              <div>
+                <label
+                  for="email"
+                  class="text-sm font-medium text-gray-700"
+                  data-translate="email_label"
+                ></label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                  data-translate-placeholder="email_placeholder"
+                />
+              </div>
+              <div>
+                <label
+                  for="password"
+                  class="text-sm font-medium text-gray-700"
+                  data-translate="password_label"
+                ></label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                  data-translate-placeholder="password_placeholder"
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  class="w-full btn btn-primary"
+                  data-translate="login_button"
+                ></button>
+              </div>
+            </form>
+            <p class="text-sm text-center text-gray-600">
+              <span data-translate="register_prompt"></span>
+              <a
+                href="#"
+                class="font-medium text-[#4A90E2] hover:underline"
+                data-translate="register_link"
+              ></a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bảng Điều Khiển -->
+      <div id="dashboard" class="page">
+        <h2 id="dashboard-welcome" class="text-3xl font-bold mb-2"></h2>
+        <p
+          class="text-lg text-gray-600 mb-8"
+          data-translate="dashboard_prompt"
+        ></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Card Trò Chuyện -->
+          <div class="card text-center">
+            <div class="card-content">
+              <div class="text-4xl mb-4">💬</div>
+              <h3
+                class="text-xl font-semibold mb-2"
+                data-translate="chat_card_title"
+              ></h3>
+              <p class="text-gray-600 mb-4" data-translate="chat_card_desc"></p>
+            </div>
+            <button
+              class="btn btn-primary mt-4"
+              onclick="showPage('chat')"
+              data-translate="chat_card_button"
+            ></button>
+          </div>
+          <!-- Card Phân Tích Code -->
+          <div class="card text-center">
+            <div class="card-content">
+              <div class="text-4xl mb-4">💻</div>
+              <h3
+                class="text-xl font-semibold mb-2"
+                data-translate="code_card_title"
+              ></h3>
+              <p class="text-gray-600 mb-4" data-translate="code_card_desc"></p>
+            </div>
+            <button
+              class="btn btn-primary mt-4"
+              onclick="showPage('code-analyzer')"
+              data-translate="code_card_button"
+            ></button>
+          </div>
+          <!-- Card Khám Phá -->
+          <div class="card text-center">
+            <div class="card-content">
+              <div class="text-4xl mb-4">🗺️</div>
+              <h3
+                class="text-xl font-semibold mb-2"
+                data-translate="discover_card_title"
+              ></h3>
+              <p
+                class="text-gray-600 mb-4"
+                data-translate="discover_card_desc"
+              ></p>
+            </div>
+            <button
+              class="btn btn-primary mt-4"
+              onclick="showPage('subjects')"
+              data-translate="discover_card_button"
+            ></button>
+          </div>
+          <!-- Card Agent -->
+          <div class="card text-center">
+            <div class="card-content">
+              <div class="text-4xl mb-4">🤖</div>
+              <h3
+                class="text-xl font-semibold mb-2"
+                data-translate="agent_card_title"
+              ></h3>
+              <p
+                class="text-gray-600 mb-4"
+                data-translate="agent_card_desc"
+              ></p>
+            </div>
+            <button
+              class="btn btn-primary mt-4"
+              onclick="showPage('agent')"
+              data-translate="agent_card_button"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thư Viện Khám Phá -->
+      <div id="subjects" class="page">
+        <h2
+          class="text-3xl font-bold mb-2"
+          data-translate="subjects_title"
+        ></h2>
+        <p
+          class="text-lg text-gray-600 mb-8"
+          data-translate="subjects_subtitle"
+        ></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Card Môn Học -->
+          <div class="card">
+            <h3
+              class="text-2xl font-semibold mb-2"
+              data-translate="web_dev_title"
+            ></h3>
+            <p class="text-gray-600 mb-4" data-translate="web_dev_desc"></p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >HTML</span
+              >
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >CSS</span
+              >
+              <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >JavaScript</span
+              >
+            </div>
+          </div>
+          <!-- Card Môn Học -->
+          <div class="card">
+            <h3
+              class="text-2xl font-semibold mb-2"
+              data-translate="devops_title"
+            ></h3>
+            <p class="text-gray-600 mb-4" data-translate="devops_desc"></p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >Git</span
+              >
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >Docker</span
+              >
+              <span
+                class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >Kubernetes</span
+              >
+            </div>
+          </div>
+          <!-- Card Môn Học -->
+          <div class="card">
+            <h3
+              class="text-2xl font-semibold mb-2"
+              data-translate="ai_title"
+            ></h3>
+            <p class="text-gray-600 mb-4" data-translate="ai_desc"></p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >Python</span
+              >
+              <span
+                class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                >TensorFlow</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Không Gian Làm Việc Của Agent -->
+      <div id="agent" class="page">
+        <h2
+          class="text-3xl font-bold mb-2"
+          data-translate="agent_workspace_title"
+        ></h2>
+        <p
+          class="text-lg text-gray-600 mb-8"
+          data-translate="agent_workspace_subtitle"
+        ></p>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <textarea
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+            rows="3"
+            data-translate-placeholder="agent_placeholder"
+          ></textarea>
+          <button
+            class="btn btn-primary mt-4"
+            data-translate="agent_execute_button"
+          ></button>
+        </div>
+
+        <div class="mt-8">
+          <h3
+            class="text-xl font-semibold mb-4 border-b pb-2"
+            data-translate="agent_thinking_log_title"
+          ></h3>
+          <div class="space-y-4">
+            <!-- Khối Suy Nghĩ -->
+            <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p
+                class="font-semibold text-yellow-800"
+                data-translate="agent_thought_block"
+              ></p>
+              <p
+                class="text-gray-700 mt-2"
+                data-translate="agent_thought_1"
+              ></p>
+            </div>
+            <!-- Khối Hành Động -->
+            <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p
+                class="font-semibold text-blue-800"
+                data-translate="agent_action_block"
+              ></p>
+              <p class="text-gray-700 mt-2" data-translate="agent_action_1"></p>
+            </div>
+            <!-- Khối Kết Quả -->
+            <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p
+                class="font-semibold text-green-800"
+                data-translate="agent_result_block"
+              ></p>
+              <p class="text-gray-700 mt-2" data-translate="agent_result_1"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="code-analyzer" class="page">
+        <h1 class="text-2xl" data-translate="code_analyzer_wip"></h1>
+      </div>
+      <div id="chat" class="page">
+        <h1 class="text-2xl" data-translate="chat_wip"></h1>
+      </div>
+    </main>
+
+    <script>
+      const translations = {
+        en: {
+          app_title: "AI Academic Assistant",
+          nav_dashboard: "Dashboard",
+          nav_code_analyzer: "Code Analyzer",
+          nav_chat: "Chat",
+          nav_discover: "Discover",
+          nav_agent: "Agent",
+          greeting_prefix: "Hello",
+          logout_button: "Logout",
+          login_title: "Login to AI Academic Assistant",
+          email_label: "Email",
+          password_label: "Password",
+          email_placeholder: "your@email.com",
+          password_placeholder: "************",
+          login_button: "Login",
+          register_prompt: "Don't have an account?",
+          register_link: "Register now",
+          dashboard_welcome: "Welcome back,",
+          dashboard_prompt: "What would you like to do today?",
+          chat_card_title: "Chat",
+          chat_card_desc: "Start a new conversation to get answers.",
+          chat_card_button: "Start",
+          code_card_title: "Code Analysis",
+          code_card_desc: "Debug or understand a complex piece of code.",
+          code_card_button: "Try Now",
+          discover_card_title: "Knowledge Discovery",
+          discover_card_desc:
+            "Browse available subjects and topics in the system.",
+          discover_card_button: "Discover",
+          agent_card_title: "Smart Agent",
+          agent_card_desc:
+            "Set a goal and let the AI execute it automatically.",
+          agent_card_button: "Start",
+          subjects_title: "Knowledge Discovery Library",
+          subjects_subtitle: "Choose a subject to start your journey.",
+          web_dev_title: "Web Development",
+          web_dev_desc:
+            "Explore the world of web development from basic to advanced.",
+          devops_title: "DevOps",
+          devops_desc:
+            "Learn the culture and tools for automating the development process.",
+          ai_title: "Artificial Intelligence",
+          ai_desc:
+            "Dive deep into the concepts of Machine Learning and Deep Learning.",
+          agent_workspace_title: "Agent Workspace",
+          agent_workspace_subtitle: "Set a goal and watch the AI work.",
+          agent_placeholder:
+            "Example: Help me create a 30-day React learning roadmap",
+          agent_execute_button: "Start Execution",
+          agent_thinking_log_title: "--- Agent's Thought Process ---",
+          agent_thought_block: "💡 [Thinking]",
+          agent_thought_1:
+            "The goal is to create a React roadmap. I need to: 1. Identify key topics. 2. Divide them by week. 3. Find resources for each topic.",
+          agent_action_block: '🛠️ [Action: Using "Search" tool]',
+          agent_action_1: 'Searching for "ReactJS topics for beginners"...',
+          agent_result_block: "✅ [Result]",
+          agent_result_1:
+            "Found: Components, State, Props, Hooks, React Router, Redux...",
+          code_analyzer_wip: "Code Analyzer Page (under construction)",
+          chat_wip: "Chat Page (under construction)",
+        },
+        vi: {
+          app_title: "Trợ Lý Học Thuật AI",
+          nav_dashboard: "Bảng Điều Khiển",
+          nav_code_analyzer: "Phân Tích Code",
+          nav_chat: "Trò Chuyện",
+          nav_discover: "Khám Phá",
+          nav_agent: "Agent",
+          greeting_prefix: "Chào",
+          logout_button: "Đăng xuất",
+          login_title: "Đăng Nhập Vào Trợ Lý Học Thuật AI",
+          email_label: "Email",
+          password_label: "Mật khẩu",
+          email_placeholder: "your@email.com",
+          password_placeholder: "************",
+          login_button: "Đăng Nhập",
+          register_prompt: "Chưa có tài khoản?",
+          register_link: "Đăng ký ngay",
+          dashboard_welcome: "Chào mừng trở lại,",
+          dashboard_prompt: "Bạn muốn làm gì hôm nay?",
+          chat_card_title: "Trò Chuyện",
+          chat_card_desc:
+            "Bắt đầu một cuộc hội thoại mới để giải đáp thắc mắc.",
+          chat_card_button: "Bắt Đầu",
+          code_card_title: "Phân Tích Code",
+          code_card_desc: "Gỡ lỗi hoặc tìm hiểu một đoạn code phức tạp.",
+          code_card_button: "Thử Ngay",
+          discover_card_title: "Khám Phá Tri Thức",
+          discover_card_desc:
+            "Duyệt qua các môn học và chủ đề có sẵn trong hệ thống.",
+          discover_card_button: "Khám Phá",
+          agent_card_title: "Agent Thông Minh",
+          agent_card_desc: "Đặt ra một mục tiêu và để AI tự động thực thi.",
+          agent_card_button: "Bắt Đầu",
+          subjects_title: "Thư Viện Khám Phá Tri Thức",
+          subjects_subtitle: "Chọn một môn học để bắt đầu hành trình của bạn.",
+          web_dev_title: "Lập trình Web",
+          web_dev_desc:
+            "Khám phá thế giới phát triển web từ cơ bản đến nâng cao.",
+          devops_title: "DevOps",
+          devops_desc:
+            "Tìm hiểu văn hóa và các công cụ tự động hóa quy trình phát triển.",
+          ai_title: "Trí tuệ Nhân tạo",
+          ai_desc:
+            "Đi sâu vào các khái niệm về Machine Learning và Deep Learning.",
+          agent_workspace_title: "Không Gian Làm Việc Của Agent",
+          agent_workspace_subtitle:
+            "Hãy đặt ra một mục tiêu và xem AI thực hiện.",
+          agent_placeholder:
+            "Ví dụ: Giúp tôi tạo lộ trình học React trong 30 ngày",
+          agent_execute_button: "Bắt Đầu Thực Thi",
+          agent_thinking_log_title: "--- Dòng Suy Nghĩ Của Agent ---",
+          agent_thought_block: "💡 [Suy Nghĩ]",
+          agent_thought_1:
+            "Mục tiêu là tạo lộ trình React. Tôi cần: 1. Xác định các chủ đề chính. 2. Phân chia chúng theo tuần. 3. Tìm tài nguyên cho mỗi chủ đề.",
+          agent_action_block: '🛠️ [Hành Động: Dùng công cụ "Tìm kiếm"]',
+          agent_action_1:
+            'Đang tìm kiếm "Các chủ đề ReactJS cho người mới bắt đầu"...',
+          agent_result_block: "✅ [Kết Quả]",
+          agent_result_1:
+            "Đã tìm thấy: Components, State, Props, Hooks, React Router, Redux...",
+          code_analyzer_wip: "Trang Phân Tích Code (đang xây dựng)",
+          chat_wip: "Trang Trò Chuyện (đang xây dựng)",
+        },
+        ja: {
+          app_title: "AI学習アシスタント",
+          nav_dashboard: "ダッシュボード",
+          nav_code_analyzer: "コード分析",
+          nav_chat: "チャット",
+          nav_discover: "発見",
+          nav_agent: "エージェント",
+          greeting_prefix: "こんにちは",
+          logout_button: "ログアウト",
+          login_title: "AI学習アシスタントにログイン",
+          email_label: "メールアドレス",
+          password_label: "パスワード",
+          email_placeholder: "your@email.com",
+          password_placeholder: "************",
+          login_button: "ログイン",
+          register_prompt: "アカウントがありませんか？",
+          register_link: "今すぐ登録",
+          dashboard_welcome: "おかえりなさい、",
+          dashboard_prompt: "今日は何をしますか？",
+          chat_card_title: "チャット",
+          chat_card_desc: "新しい会話を始めて質問を解決しましょう。",
+          chat_card_button: "開始",
+          code_card_title: "コード分析",
+          code_card_desc: "複雑なコードをデバッグまたは理解します。",
+          code_card_button: "今すぐ試す",
+          discover_card_title: "知識の発見",
+          discover_card_desc:
+            "システムで利用可能な科目やトピックを閲覧します。",
+          discover_card_button: "発見",
+          agent_card_title: "スマートエージェント",
+          agent_card_desc: "目標を設定し、AIに自動で実行させましょう。",
+          agent_card_button: "開始",
+          subjects_title: "知識発見ライブラリ",
+          subjects_subtitle: "学習の旅を始めるために科目を選択してください。",
+          web_dev_title: "Webプログラミング",
+          web_dev_desc: "基本から応用まで、Web開発の世界を探求します。",
+          devops_title: "DevOps",
+          devops_desc: "開発プロセスを自動化するための文化とツールを学びます。",
+          ai_title: "人工知能",
+          ai_desc: "機械学習とディープラーニングの概念を深く掘り下げます。",
+          agent_workspace_title: "エージェントのワークスペース",
+          agent_workspace_subtitle: "目標を設定し、AIの実行を見守りましょう。",
+          agent_placeholder:
+            "例：30日間でReactを学習するロードマップを作成してください",
+          agent_execute_button: "実行開始",
+          agent_thinking_log_title: "--- エージェントの思考プロセス ---",
+          agent_thought_block: "💡 [思考]",
+          agent_thought_1:
+            "目標はReactのロードマップを作成することです。必要なこと：1. 主要なトピックを特定する。2. それらを週ごとに分ける。3. 各トピックのリソースを見つける。",
+          agent_action_block: "🛠️ [アクション：「検索」ツールを使用]",
+          agent_action_1: "「初心者向けのReactJSトピック」を検索中...",
+          agent_result_block: "✅ [結果]",
+          agent_result_1:
+            "見つかりました：コンポーネント、State、Props、Hooks、React Router、Redux...",
+          code_analyzer_wip: "コード分析ページ（作成中）",
+          chat_wip: "チャットページ（作成中）",
+        },
+      };
+
+      let currentPage = "login";
+      let currentLanguage = "en";
+      let username = "User";
+
+      function translatePage() {
+        document.querySelectorAll("[data-translate]").forEach((el) => {
+          const key = el.getAttribute("data-translate");
+          el.innerText = translations[currentLanguage][key] || key;
+        });
+        document
+          .querySelectorAll("[data-translate-placeholder]")
+          .forEach((el) => {
+            const key = el.getAttribute("data-translate-placeholder");
+            el.placeholder = translations[currentLanguage][key] || key;
+          });
+
+        // Handle special cases
+        const greetingText = `${translations[currentLanguage].greeting_prefix}, ${username}!`;
+        document.getElementById("user-greeting").innerText = greetingText;
+
+        const welcomeText = `${translations[currentLanguage].dashboard_welcome} ${username}!`;
+        document.getElementById("dashboard-welcome").innerText = welcomeText;
+
+        // Update active language button
+        ["en", "ja", "vi"].forEach((lang) => {
+          document
+            .getElementById(`lang-${lang}`)
+            .classList.toggle("active", lang === currentLanguage);
+          document
+            .getElementById(`lang-login-${lang}`)
+            .classList.toggle("active", lang === currentLanguage);
+        });
+      }
+
+      function setLanguage(lang) {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        translatePage();
+      }
+
+      function showPage(pageId) {
+        document.querySelectorAll(".page").forEach((page) => {
+          page.classList.remove("active");
+        });
+        const activePage = document.getElementById(pageId);
+        if (activePage) {
+          activePage.classList.add("active");
+          currentPage = pageId;
+        }
+      }
+
+      function login() {
+        const emailValue = document.getElementById("email").value;
+        username = emailValue.split("@")[0] || "User";
+
+        document.getElementById("common-header").classList.remove("hidden");
+        document.body.classList.remove("bg-gray-100");
+        document.body.classList.add("bg-gray-50");
+        showPage("dashboard");
+        translatePage(); // Translate after showing dashboard
+      }
+
+      function logout() {
+        document.getElementById("common-header").classList.add("hidden");
+        document.body.classList.add("bg-gray-100");
+        document.body.classList.remove("bg-gray-50");
+        showPage("login");
+        translatePage(); // Translate after showing login
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        showPage(currentPage);
+        setLanguage(currentLanguage); // Set initial language
+      });
+    </script>
+  </body>
+</html>
